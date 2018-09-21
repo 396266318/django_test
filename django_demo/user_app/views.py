@@ -13,4 +13,7 @@ def login_action(request):
 		password = request.GET.get("password")
 
 		if username == "" or password == "":
-			return render(request, 'index.html', {"error": "密码不能为空"})
+			context = {
+				"error": "密码不能为空"
+			}
+			return render(request, 'index.html')
