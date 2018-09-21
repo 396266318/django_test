@@ -16,4 +16,4 @@ def login_action(request):
 			context = {
 				"error": "密码不能为空"
 			}
-			return render(request, 'index.html')
+			return render(request, 'index.html', context=context)
