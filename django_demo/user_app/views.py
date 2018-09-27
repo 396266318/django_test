@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-# Create your views here.
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import auth
 
 
 def index(request):
@@ -8,12 +8,20 @@ def index(request):
 
 
 def login_action(request):
-	if request.method == 'GET':
-		username = request.GET.get("usernmae")
-		password = request.GET.get("password")
-
+	if request.method == "POST":
+		username = request.POST.get("username")
+		password = request.POST.get("password")
 		if username == "" or password == "":
-			context = {
-				"error": "密码不能为空"
-			}
-			return render(request, 'index.html', context=context)
+			return render(request, 'index.html', {"error": "用户名或者密码错误"})
+
+		else:
+			user = auth.authenticate(username=username, password=username)
+			print(user)
+			print(type(user))
+			if user is not None:
+				auth.login(request, user)
+				return render(request, 'project_manage.html')
+			else:
+				return render(request, 'index.html', {"error": "用户名或者密码错误"})
+	else:
+		return render(request, 'index.html')
