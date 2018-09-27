@@ -15,7 +15,7 @@ def login_action(request):
 			return render(request, 'index.html', {"error": "用户名或者密码错误"})
 
 		else:
-			user = auth.authenticate(username=username, password=username)
+			user = auth.authenticate(username=username, password=password)
 			print(user)
 			print(type(user))
 			if user is not None:
