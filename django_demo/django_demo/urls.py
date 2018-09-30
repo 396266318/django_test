@@ -18,10 +18,9 @@ from django.urls import path
 from user_app import views
 
 urlpatterns = [
-	path('admin/', admin.site.urls),
-	path('', views.index, name='index'),
-	path('user_login/', views.login_action, name='user_login'),
-	path('accounts/login/', views.login_action, name='accounts_login'),
-	path('project_manage/', views.project_manage, name='project_manage'),
-	path('logout/', views.logout, name='logout'),
+    path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
+    path('user_login/', views.login_action, name='user_login'),
+    path('project_manage/', views.project_manage, name='project_manage'),
+    path('logout/', views.logout, name='logout'),
 ]

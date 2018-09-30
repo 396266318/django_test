@@ -1,3 +1,4 @@
+### 第二次课程
 * 使用数据库里的用户进行登录
 * 表单为post请求时，解决csrf问题，修改test_platform/settings  注释掉就不会校验 csrf
 ```
