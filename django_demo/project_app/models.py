@@ -5,7 +5,6 @@ from django.db import models
 
 class Project(models.Model):
 	"""项目表"""
-
 	name = models.CharField('名称', max_length=100, blank=False, default="")
 	describe = models.TextField('描述', default="")
 	status = models.BooleanField('状态', default=True)

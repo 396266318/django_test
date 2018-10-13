@@ -12,18 +12,19 @@ def index(request):
 def login_action(request):
 	"""登录"""
 	if request.method == "POST":
-		username = request.POST.get("username")
-		password = request.POST.get("password")
-		if username == "" or password == "":
+		login_username = request.POST.get("username")
+		login_password = request.POST.get("password")
+		if login_username == "" or login_password == "":
 			return render(request, 'index.html', {"error": "用户名或者密码错误"})
 
 		else:
-			user = auth.authenticate(username=username, password=password)
+			user = auth.authenticate(username=login_username, password=login_password)
 
 			if user is not None:
 				auth.login(request, user)  # 记录用户登录状态
-				request.session['user'] = username
-				return HttpResponseRedirect("/project_manage/")
+				response =  HttpResponseRedirect("/manage/project/")
+				request.session['user'] = login_username
+				return response
 			else:
 				return render(request, 'index.html', {"error": "用户名或者密码错误"})
 	else:
@@ -34,8 +35,6 @@ def login_action(request):
 def project_manage(request):
 	"""获取浏览器session"""
 	username = request.session.get("user", '')  # 读取浏览器 session
-
-
 	return render(request, "project_manage.html", {"user": username})
 
 
