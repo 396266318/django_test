@@ -21,6 +21,7 @@ from user_app import views
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', views.index, name='index'),
+	path('accounts/login/', views.index),
 	path('login_action/', views.login_action, name='user_login'),
 	path('logout/', views.logout, name='logout'),
 	path('manage/', include('project_app.urls')),
