@@ -30,7 +30,7 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     <li class="active"><a href="#">项目管理</a></li>
-                    <li><a href="#">模块管理</a></li>
+                    <li><a href="/manage/module_manage/">模块管理</a></li>
                 </ul>
                 <ul class="nav nav-sidebar">
                     <li><a href="">用例管理</a></li>
@@ -45,7 +45,7 @@
             {% if type == 'list'%}
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <h3 class="sub-header" >项目列表
-                    <button type="button" class="btn btn-default"
+                    <button type="button" class="btn btn-success"
                     style="float: right;"
                     onclick="window.location.href='/manage/add_project/'">创建</button>
                 </h3>
@@ -58,6 +58,7 @@
                                 <th>描述</th>
                                 <th>状态</th>
                                 <th>创建时间</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,7 +68,12 @@
                                 <td>{{ project.name }}</td>
                                 <td>{{ project.describe }}</td>
                                 <td>{{ project.status }}</td>
-                                <td>{{ project.create_time }}</td>
+                                <td>{{ project.create_time | date:"Y-m-d H:i:s" }}</td>
+
+                                <td>
+	                                <a href="/manage/edit_project/{{ project.id }}/">编辑</a>
+	                                <a href="/manage/delete_project/{{ project.id }}/">删除</a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -79,17 +85,37 @@
 
             {% if type == 'add'%}
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <h3 class="sub-header">添加项目</h3>
-
+                <h3 class="sub-header">添加项目
+	                <button class="btn btn-default" onclick="window.location.href='/manage/project_manage/'" style="margin-left: 180px;">取消
+						</button>
+                </h3>
+	            <div class="row">
+		            <div class="col-md-6">
+			            <div class="table-responsive">
+			                <form action="/manage/add_project/" method="post">
+				                {% csrf_token %}
+				                {{ form.as_p }}
+			                    <button type="submit" class="btn btn-success">创建</button>
+			                </form>
+	                    </div>
+		            </div>
+	            </div>
+            </div>
+            {% endif %}
+            {% if type == "edit" %}
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <h3 class="sub-header">编辑项目
+                    <button class="btn btn-default" onclick="window.location.href='/manage/project_manage/'" style="margin-left: 180px;">取消</button>
+                </h3>
                 <div class="table-responsive">
-                    这是创建项目的表单，待开发中ing
+	                <form role="form" method="post">
+		                {% csrf_token %}
+		                {{ form.as_p }}
+		                <button type="submit" class="btn btn-success">保存</button>
+	                </form>
                 </div>
             </div>
             {% endif %}
-
         </div>
-
-
     </div>
-
 {% endblock %}

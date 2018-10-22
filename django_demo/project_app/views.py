@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from project_app.models import Project
+from project_app.forms import *
 
 
 @login_required
@@ -17,39 +19,39 @@ def project_manage(request):
 	return render(request, "project_manage.html", context=context)
 
 
+
 @login_required
 def add_project(request):
 	"""添加项目"""
+	username = request.session.get('user', '')
+
+	if request.method == 'POST':
+		form = AddProjectForm(request.POST)
+		if form.is_valid():
+			name = form.cleaned_data['name']
+			describe = form.cleaned_data['describe']
+			status = 1
+			Project.objects.create(name=name, describe=describe, status=status)
+			return HttpResponseRedirect('/manage/project_manage/')
+	else:
+		form = AddProjectForm()
+
 	context = {
+		"user": username,
+		"form": form,
 		"type": "add",
-		}
-	return render(request, "module_manage.html", context=context)
+	}
+	return render(request, 'project_manage.html', context=context)
 
 
-# @login_required
-# def add_project(request):
-# 	"""添加项目"""
-# 	username = request.session.get('user', '')
-#
-# 	if request.method == 'POST':
-# 		form = AddProjectForm(request.POST)
-# 		if form.is_valid():
-# 			name = form.cleaned_data['name']
-# 			describe = form.cleaned_data['describe']
-# 			status = 1
-# 			Project.objects.create(name=name, describe=describe, status=status)
-# 			return HttpResponseRedirect('/manage/project/')
-# 	else:
-# 		form = AddProjectForm()
-#
-# 	context = {
-# 		"user": username,
-# 		"form": form,
-# 		"type": "add",
-# 	}
-# 	return render(request, 'project_manage.html', context=context)
-#
-#
+def edit_project(request, pid):
+	print("编辑项目的id: %s" % pid)
+	pass
+
+
+def detele_project(request):
+	pass
+
 # @login_required
 # def module_manage(request):
 # 	"""模块管理"""
