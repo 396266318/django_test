@@ -49,7 +49,7 @@ def logout(request):
 
 * urls.py 添加 访问路径
 ```python
-# 在 views.py 中添加了 project_manage, logout 函数
+project_views.py
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
