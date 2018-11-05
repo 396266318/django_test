@@ -29,11 +29,11 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li class="active"><a href="#">项目管理</a></li>
+                    <li><a href="/manage/project_manage/">项目管理</a></li>
                     <li><a href="/manage/module_manage/">模块管理</a></li>
                 </ul>
                 <ul class="nav nav-sidebar">
-                    <li><a href="/interface/case_manage/">用例管理</a></li>
+                    <li class="active"><a href="#">用例管理</a></li>
                     <li><a href="/interface/test_task/">任务管理</a></li>
                 </ul>
                 <ul class="nav nav-sidebar">
@@ -44,10 +44,10 @@
 
             {% if type == 'list'%}
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <h3 class="sub-header" >项目列表
+                <h3 class="sub-header" >用例列表
                     <button type="button" class="btn btn-success"
                     style="float: right;"
-                    onclick="window.location.href='/manage/add_project/'">创建</button>
+                    onclick="window.location.href='/interface/api_debug/'">调试</button>
                 </h3>
                 <div class="table-responsive">
                     <table class="table table-striped">
