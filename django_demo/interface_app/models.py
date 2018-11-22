@@ -12,8 +12,9 @@ class TestCase(models.Model):
 	req_type = models.CharField("参数类型", max_length=10, default="")
 	req_header = models.TextField("header", default="")
 	req_parameter = models.TextField("参数", default="")
-	response_assert = models.TextField("验证", default="")
+	req_assert = models.TextField("验证", default="")
 	create_time = models.DateTimeField("创建时间", auto_now_add=True)
 	
 	def __str__(self):
 		return self.name
+	

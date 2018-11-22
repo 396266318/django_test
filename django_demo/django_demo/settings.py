@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 	'user_app',
 	'project_app',
 	'interface_app',
+	'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +81,11 @@ DATABASES = {
 	}
 }
 
+REST_FRAMEWORK = {
+	'DEFAULT_PERMISSION_CLASSES': [
+		'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+	]
+}
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 

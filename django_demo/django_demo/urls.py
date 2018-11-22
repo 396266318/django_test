@@ -26,4 +26,5 @@ urlpatterns = [
 	path('logout/', views.logout, name='logout'),
 	path('manage/', include('project_app.urls')),
 	path('interface/', include('interface_app.urls')),
+	path('api-auth/', include('rest_framework.urls')),
 ]
