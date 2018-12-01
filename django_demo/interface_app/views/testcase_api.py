@@ -136,6 +136,51 @@ def save_case(request):
 		return common.response_failed("请求方法错误!")
 
 
+def update_case(request):
+	"""
+	更新接口测试用例
+	:param request
+	:return
+	"""
+	if request.method == "POST":
+		case_id = request.POST.get("cid", "")
+		nama = request.POST.get("name", "")
+		url = request.POST.get("req_url", "")
+		method = request.POST.get("req_method", "")
+		parameter = request.POST.get("req_parameter", "")
+		req_type = request.POST.get("req_type", "")
+		header = request.POST.get("header", "")
+		module_name = request.POST.get("module", "")
+		assert_text = request.POST.get("assert_text", "")
+
+		if url == "" or method == "" or req_type == "" or module_name == "" or assert_text == "":
+			return common.response_failed("必传参数为空")
+		
+		if parameter == "":
+			parameter = "{}"
+
+		if header == "":
+			header = "{}"
+		
+		module_obj = Module.objects.get(name=module_name)
+		case_obj = TestCase.objects.filter(id=case_id).update(
+				module=module_obj,
+				name=name,
+				url=url,
+				req_method=method,
+				req_header=header,
+				req_type=req_type,
+				req_paramter=parameter,
+				req_assert=assert_text,
+		    )
+		if case_obj == 1:
+			return common.response_succeed("更新成功!")
+		else:
+			return common.response_failed("更新失败!")
+	else:
+		return common.response_failed("请求方法错误")
+
+
 def get_case_info(request):
 	"""
 	获取接口数据
@@ -146,8 +191,13 @@ def get_case_info(request):
 		case_id = request.POST.get("caseId", "")
 		if case_id == "":
 			return common.response_failed("用例id为空")
+		try:
+			case_obj = TestCase.objects.get(pk=case_id)
+		except TestCase.DoesNoExist:
+			return common.response_failed("查询用例不存在")
+
 		
-		case_obj = TestCase.objects.get(pk=case_id)
+		
 		module_obj = Module.objects.get(id=case_obj.module_id)
 		module_name = module_obj.name # 模块名称
 		
@@ -164,5 +214,32 @@ def get_case_info(request):
 			"assertText": case_obj.resp_assert,
 		}
 		return common.response_succeed(data=case_info)
+	else:
+		return common.response_failed("请求方法错误")
+
+
+def get_case_list(request):
+	"""
+	获取测试用例列表
+	:param request
+	:return
+	"""
+	if request.method == "GET":
+		cases_list = []
+
+		projects = Project.objects.all()
+		for project in projects:
+			modules = Module.objects.filter(project_id=project.id)
+			for module in modules:
+				cases = TestCase.objects.filter(module_id=module.id)
+				for case in cases:
+					case_info = project.name +" -> "+module.name+" -> "+ case.name
+					case_dict = {
+						"id": case.id,
+						"name": case_info,
+					}
+					cases_list.append(case_dict)
+
+		return common.response_succeed(data=cases_list) 
 	else:
 		return common.response_failed("请求方法错误")

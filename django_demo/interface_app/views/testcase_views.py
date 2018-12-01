@@ -19,7 +19,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def case_manage(request):
 	testcases = TestCase.objects.all()
 	paginator = Paginator(testcases, 5)  # 页面列表显示数据条数
-	
+
 	page = request.GET.get('page')
 	try:
 		contacts = paginator.page(page)
