@@ -4,8 +4,13 @@ author: Xuan
 time: 2018/12/1 11:17 PM
 """
 from django.shortcuts import render
-from django.http import HttpResponse
-from interface_app.models import TestTask
+from django.http import HttpResponse, HttpResponseRedirect
+from interface_app.models import TestTask, TestCase
+from interface_app.extend.task_run import run_cases
+import os
+import json
+from interface_app.apps import TASK_PATH, RUN_TASK_FILE
+from interface_app.extend.task_thread import TaskThread
 
 """
 说明: 接口任务文件, 返回HTML页面
@@ -32,4 +37,11 @@ def add_task(request):
 		})
 	else:
 		return HttpResponse("404")
-	
+
+
+def run_task(request, tid):
+	if request.method == "GET":
+		TaskThread(tid).new_run()
+		return HttpResponseRedirect("/interface/task_manage")
+	else:
+		return HttpResponse("404")

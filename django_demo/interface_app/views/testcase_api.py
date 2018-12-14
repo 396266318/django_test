@@ -93,7 +93,7 @@ def api_assert(request):
 		except AssertionError:
 			return common.response_failed("验证失败!")
 		else:
-			return  common.response_succeed("验证成功!")
+			return common.response_succeed("验证成功!")
 	else:
 		return common.response_failed("请求方法错误")
 	
@@ -144,7 +144,7 @@ def update_case(request):
 	"""
 	if request.method == "POST":
 		case_id = request.POST.get("cid", "")
-		nama = request.POST.get("name", "")
+		name = request.POST.get("name", "")
 		url = request.POST.get("req_url", "")
 		method = request.POST.get("req_method", "")
 		parameter = request.POST.get("req_parameter", "")
@@ -172,7 +172,7 @@ def update_case(request):
 				req_type=req_type,
 				req_paramter=parameter,
 				req_assert=assert_text,
-		    )
+		)
 		if case_obj == 1:
 			return common.response_succeed("更新成功!")
 		else:
